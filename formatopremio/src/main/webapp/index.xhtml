@@ -1,0 +1,321 @@
+    <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+    <title>Premio Estatal</title>
+     <style type="text/css">
+ .ui-fileupload
+.ui-fileupload-buttonbar
+.ui-fileupload-choose	
+.ui-fileupload-upload	
+.ui-fileupload-cancel	
+.ui-fileupload-content{
+display:none;
+}	
+    </style>
+    
+    
+    <script  type="text/javascript">
+
+
+        PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText : 'Todo el día'
+        };
+        
+        </script>
+    
+    
+    
+    </h:head>
+ 
+    <h:body>
+    
+   <p:layout style="min-width:100px;min-height:600px">
+   
+   <p:layoutUnit position="center">
+   
+   
+   
+   
+   
+   <h1>Premio estatal del deporte 2020</h1>
+   
+    
+   
+<p:panel header="Generar Formato">
+
+<h:form id="form" enctype="multipart/form-data">
+      <h3 style="margin-top:0">Seleccione en la modalidad que desea participar</h3>
+    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+     <p:outputLabel for="modalidad" value="MODALIDAD:" />
+        <p:selectOneRadio id="modalidad" value="#{formatoPremioBean.modalidad}" unselectable="true">
+            <f:selectItem itemLabel="DEPORTISTA" itemValue="DEPORTISTA" />
+            <f:selectItem itemLabel="ENTRENADOR" itemValue="ENTRENADOR" />
+            <f:selectItem itemLabel="FOMENTO,PROTECCIÓN O IMPULSO EN LA PRÁCTICA DE LOS DEPORTES" itemValue="FOMENTO,PROTECCIÓN O IMPULSO EN LA PRÁCTICA DE LOS DEPORTES" />
+        </p:selectOneRadio>
+        <h4>Subir imagen <b>Maximo 5megas</b></h4>
+        <p:fileUpload id="imagenDepo" mode="advanced"
+        sizeLimit="51200000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar" uploadLabel="Subir Imagen" label="Elegir"  fileUploadListener="#{formatoPremioBean.subirImagen}">
+        </p:fileUpload>
+        
+        <p:outputLabel for="deporte" value="Deporte:" />
+         <p:inputText id="deporte" value="#{formatoPremioBean.deporte}"  />
+        <p:outputLabel for="especialidad" value="Especialidad:" />
+         <p:inputText id="especialidad" value="#{formatoPremioBean.especialidad}"  />
+         <p:outputLabel for="asociacion" value="Nombre de la federación o asociación:" />
+         <p:inputText id="asociacion" value="#{formatoPremioBean.asociacion}"  />
+          <h:outputText value="Seleccionar propuesta:" />
+         
+          <p:selectOneButton id="propuesta" value="#{formatoPremioBean.propuesta}" >
+            <f:selectItem itemLabel="Datos del candidato (Propuesta individual)" itemValue="individual" />
+            <f:selectItem itemLabel="Propuesta por equipo o deportes de conjunto(Integrantes del equipo)" itemValue="equipo" />
+         <p:ajax listener="#{formatoPremioBean.getEnablePropuesta}" process="@this,panelIndividual,panelEquipo" 
+         update="panelIndividual,panelEquipo"  ></p:ajax>   
+         
+         </p:selectOneButton>
+         
+         
+    </h:panelGrid>
+    <p:panel    id="panelIndividual"  visible="#{formatoPremioBean.visiblePanelIndividual}"  >
+     <h3 style="margin-top:0">Datos del candidato (Propuesta individual)</h3>
+     <p:panelGrid columns="6" style="margin-bottom:10px" cellpadding="5" >
+     <p:outputLabel for="candidato" value="Nombre del candidato:" />
+         <p:inputText id="candidato" value="#{formatoPremioBean.candidato}"  />
+     
+     <p:outputLabel for="candidatoApellidoPaterno" value="Apellido Paterno del candidato:" />
+      <p:inputText id="candidatoApellidoPaterno" value="#{formatoPremioBean.candidatoApellidoPaterno}"  />
+     
+     <p:outputLabel for="candidatoApellidoMaterno" value="Apellido Materno del candidato:" />
+      <p:inputText id="candidatoApellidoMaterno" value="#{formatoPremioBean.candidatoApellidoMaterno}"  />
+     <p:outputLabel for="fecha" value="Fecha de nacimiento:" />
+   <p:calendar id="fecha" value="#{formatoPremioBean.fecha}" navigator="true" pattern="dd/MM/yyyy" locale="es" yearRange="c-100:c" />
+     <p:outputLabel for="lugarNacimiento" value="Lugar de nacimiento:" />
+      <p:inputText id="lugarNacimiento" value="#{formatoPremioBean.lugarNacimiento}"  />
+      <p:outputLabel for="curp" value="C.U.R.P. " />
+      <p:inputText id="curp" value="#{formatoPremioBean.curp}"  />
+      <p:outputLabel for="email" value="Correo electrónico: " />
+      <p:inputText id="email" value="#{formatoPremioBean.email}"  />
+      <p:outputLabel for="telefono" value="Teléfono: " />
+      <p:inputText id="telefono" value="#{formatoPremioBean.telefono}"  />
+      <p:outputLabel for="celular" value="No. Celular: " />
+      <p:inputText id="celular" value="#{formatoPremioBean.celular}"  />
+      <p:outputLabel for="calle" value="Calle: " />
+      <p:inputText id="calle" value="#{formatoPremioBean.calle}"  />
+      <p:outputLabel for="numExt" value="Número Exterior: " />
+      <p:inputText id="numExt" value="#{formatoPremioBean.numExt}"  />
+      <p:outputLabel for="numInt" value="Número Interior: " />
+      <p:inputText id="numInt" value="#{formatoPremioBean.numInt}"  />
+       <p:outputLabel for="colonia" value="Colonia: " />
+      <p:inputText id="colonia" value="#{formatoPremioBean.colonia}"  />
+       <p:outputLabel for="codigoPostal" value="Código postal: " />
+      <p:inputText id="codigoPostal" value="#{formatoPremioBean.codigoPostal}"  />
+       <p:outputLabel for="municipio" value="Alcaldía o municipio: " />
+      <p:inputText id="municipio" value="#{formatoPremioBean.municipio}"  />
+       <p:outputLabel for="estado" value="Entidad federativa: " />
+      <p:inputText id="estado" value="#{formatoPremioBean.estado}"  />
+     </p:panelGrid>
+    </p:panel>
+    <p:panel    id="panelEquipo"  visible="#{formatoPremioBean.visiblePanelEquipo}"  >
+   <h3 style="margin-top:0">Propuesta por equipo o deportes de conjunto(Integrantes del equipo)</h3>  
+    <p:panelGrid columns="6" cellpadding="5"    >
+   <p:outputLabel for="nombreIntegrante" value="Nombre del integrante:" />
+         <p:inputText id="nombreIntegrante" value="#{formatoPremioBean.equipo.nombre}"  />
+     
+     <p:outputLabel for="integranteApellidoPaterno" value="Apellido Paterno:" />
+      <p:inputText id="integranteApellidoPaterno" value="#{formatoPremioBean.equipo.apellidoPaterno}"  />
+     
+     <p:outputLabel for="integranteApellidoMaterno" value="Apellido Materno:" />
+      <p:inputText id="integranteApellidoMaterno" value="#{formatoPremioBean.equipo.apellidoMaterno}"  />         
+    
+    
+    
+     <p:outputLabel for="integranteFecha" value="Fecha de nacimiento:" />
+   <p:calendar id="integranteFecha" value="#{formatoPremioBean.equipo.fechaNacimiento}" navigator="true" pattern="dd/MM/yyyy" locale="es" yearRange="c-100:c" />
+    
+     <p:outputLabel for="integranteTelefono" value="Teléfono:" />
+      <p:inputText id="integranteTelefono" value="#{formatoPremioBean.equipo.telefono}"  />         
+    
+    
+    <p:commandButton  value="Agregar Integrante"    action="#{formatoPremioBean.agregarIntegrante}" update="form,integrantes,nombreIntegrante,integranteApellidoPaterno,
+    integranteApellidoMaterno,integranteFecha,integranteTelefono">
+    
+    </p:commandButton>
+    
+                  
+</p:panelGrid>
+    
+ 
+
+
+<p:dataTable  
+paginatorposition="bottom" rows="5" lazy="true" dynamic="true"  
+id="integrantes"  var="integrante"  value="#{formatoPremioBean.equipos}" editable="true" style="margin-bottom:20px">
+<f:facet name="header">
+Equipo
+</f:facet>
+<p:column headerText="Nombre">
+<h:outputText value="#{integrante.nombre}" />
+</p:column>
+<p:column headerText="Apellido Paterno">
+<h:outputText value="#{integrante.apellidoPaterno}" />
+</p:column>
+<p:column headerText="Apellido Materno">
+<h:outputText value="#{integrante.apellidoMaterno}" />
+</p:column>
+<p:column headerText="Fecha Nacimiento">
+<h:outputText value="#{integrante.fechaNacimiento}" />
+</p:column>
+
+
+<p:column headerText="Teléfono">
+<h:outputText value="#{integrante.telefono}" />
+</p:column>
+
+
+</p:dataTable>
+
+ </p:panel>   
+ 
+ 
+  <h3 style="margin-top:0">Logros que acrediten el merecimiento del premio estatal del deporte 2020</h3>  
+    <p:panelGrid columns="6" cellpadding="5"    >
+   <p:outputLabel for="evento" value="Evento:" />
+         <p:inputText id="evento" value="#{formatoPremioBean.logro.evento}"  />
+     
+     <p:outputLabel for="sede" value="Sede y fecha del evento:" />
+      <p:inputText id="sede" value="#{formatoPremioBean.logro.sede}"  />
+     
+     <p:outputLabel for="lugar" value="Lugar obtenido:" />
+      <p:inputText id="lugar" value="#{formatoPremioBean.logro.lugar}"  />         
+    
+    
+    
+     <p:outputLabel for="comentario" value="Comentario del lugar obtenido:" />
+  <p:inputText id="comentario" value="#{formatoPremioBean.logro.comentario}"  /> 
+    
+     
+    
+    <p:commandButton  value="Agregar Logro"    action="#{formatoPremioBean.agregarLogro}" update="form,logros,evento,sede,lugar,comentario" >
+    
+    </p:commandButton>
+    
+                  
+</p:panelGrid>
+ 
+ <p:dataTable  
+paginatorposition="bottom" rows="5" lazy="true" dynamic="true"  
+id="logros"  var="logro"  value="#{formatoPremioBean.logros}" editable="true" style="margin-bottom:20px">
+<f:facet name="header">
+Logros
+</f:facet>
+<p:column headerText="Evento">
+<h:outputText value="#{logro.evento}" />
+</p:column>
+<p:column headerText="Sede y fecha">
+<h:outputText value="#{logro.sede}" />
+</p:column>
+<p:column headerText="Lugar obtenido">
+<h:outputText value="#{logro.lugar}" />
+</p:column>
+<p:column headerText="Comentario del lugar obtenido">
+<h:outputText value="#{logro.comentario}" />
+</p:column>
+
+</p:dataTable>
+ 
+ 
+ <h3 style="margin-top:0">reconocimientos y premios</h3>  
+    <p:panelGrid columns="6" cellpadding="5"    >
+   <p:outputLabel for="year" value="Año:" />
+         <p:inputText id="year" value="#{formatoPremioBean.premio.year}"  />
+     
+     <p:outputLabel for="descripcion" value="Descripción de reconocimiento:" />
+      <p:inputText id="descripcion" value="#{formatoPremioBean.premio.descripcion}"  />
+     
+     <p:outputLabel for="otorgado" value="Otorgado por:" />
+      <p:inputText id="otorgado" value="#{formatoPremioBean.premio.otorgado}"  />         
+    
+     
+    
+    <p:commandButton  value="Agregar Reconocimiento o premio"    action="#{formatoPremioBean.agregarPremio}" update="form,premios,year,descripcion,otorgado" >
+    
+    </p:commandButton>
+    
+                  
+</p:panelGrid>
+ 
+ <p:dataTable  
+paginatorposition="bottom" rows="5" lazy="true" dynamic="true"  
+id="premios"  var="premio"  value="#{formatoPremioBean.premios}" editable="true" style="margin-bottom:20px">
+<f:facet name="header">
+Reconocimientos o premios
+</f:facet>
+<p:column headerText="Año">
+<h:outputText value="#{premio.year}" />
+</p:column>
+<p:column headerText="Descripcion">
+<h:outputText value="#{premio.descripcion}" />
+</p:column>
+<p:column headerText="Otorgado por:">
+<h:outputText value="#{premio.otorgado}" />
+</p:column>
+
+</p:dataTable>
+ 
+ 
+ 
+
+<p:panelGrid columns="6" cellpadding="5">
+
+
+<p:commandButton action="#{formatoPremioBean.imprimir}" value="Generar Formato" 
+                        icon="icon-report" ajax="false">
+                  </p:commandButton>
+                  
+    <p:commandButton  value="Limpiar Formulario"    action="#{formatoPremioBean.limpiarFormulario}" update="integrantes,premios,logros,modalidad,deporte,especialidad,asociacion,panelEquipo,panelIndividual,propuesta,
+    candidato,candidatoApellidoPaterno,candidatoApellidoMaterno,fecha,lugarNacimiento,curp,email,
+    telefono,celular,calle,numExt,numInt,colonia,codigoPostal,municipio,estado" >
+    
+    </p:commandButton>               
+            
+                  
+</p:panelGrid>
+
+
+
+
+</h:form>
+</p:panel>
+
+</p:layoutUnit>
+</p:layout>
+
+ 
+    
+    </h:body>
+</html>  
